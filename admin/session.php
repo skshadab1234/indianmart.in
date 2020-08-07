@@ -5,7 +5,7 @@ include('../function.inc.php');
 include('../constant.inc.php');
 
 if (!isset($_SESSION['ADMIN_ID']) || trim($_SESSION['ADMIN_ID']) == '') {
-	header('location: ./index.php');
+	header('location: login.php');
 	exit();
 }
 

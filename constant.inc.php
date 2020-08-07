@@ -5,8 +5,8 @@ define('FRONT_SITE_NAME','HouseWife Store');
 define('FRONT_SITE_PATH','http://127.0.0.1/indianmart/');
 define('SERVER_IMAGE',$_SERVER['DOCUMENT_ROOT'].'/indianmart/');
 
-define('SERVER_DISH_IMAGE',SERVER_IMAGE."media/dish/");
-define('SITE_DISH_IMAGE',FRONT_SITE_PATH."media/dish/");
+define('SERVER_PRODUCTS_IMAGE',SERVER_IMAGE."media/products/");
+define('SITE_PRODUCTS_IMAGE',FRONT_SITE_PATH."media/products/");
 
 define('SERVER_USER_IMAGE',SERVER_IMAGE."media/userprofile/");
 define('SITE_USER_IMAGE',FRONT_SITE_PATH."media/userprofile/");
@@ -22,4 +22,7 @@ define('SITE_SELLER_IMAGE',FRONT_SITE_PATH."media/wholeseller/");
 
 define('SERVER_CATEGORY_IMAGE',SERVER_IMAGE."media/category/");
 define('SITE_CATEGORY_IMAGE',FRONT_SITE_PATH."media/category/");
+
+define('SERVER_SUBCATEGORY_IMAGE',SERVER_IMAGE."media/subcategory/");
+define('SITE_SUBCATEGORY_IMAGE',FRONT_SITE_PATH."media/subcategory/");
 ?>

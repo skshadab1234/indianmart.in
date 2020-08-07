@@ -1,13 +1,16 @@
 <?php
 include('session.php');
 
+
+if(!isset($_SESSION['ADMIN_ID'])){
+  redirect('login.php');
+}
+
 $curStr=$_SERVER['REQUEST_URI'];
 $curArr=explode('/',$curStr);
 $cur_path=$curArr[count($curArr)-1];
 
-if(!isset($_SESSION['IS_LOGIN'])){
-	redirect('login.php');
-}
+
 $page_title='';
 if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
 	$page_title='Dashboard';
@@ -19,6 +22,10 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
   $page_title='Wholeseller';
 }elseif($cur_path=='category.php' || $cur_path=='manage_category.php'){
   $page_title='Category';
+}elseif($cur_path=='subcategory.php' || $cur_path=='manage_subcategory.php'){
+  $page_title='Subcategory';
+}elseif($cur_path=='products.php' || $cur_path=='manage_products.php'){
+  $page_title='Products';
 }elseif($cur_path=='enquiry.php'){
   $page_title='Enquiries';
 }
@@ -265,6 +272,45 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Category
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+           <li class="nav-item">
+            <?php
+                $active2 = ""; 
+                if($page_title == "Subcategory"){
+                  $link2 = "javascript:void(0)";
+                  $active2 = "active";
+                }else{
+                  $link2 = "subcategory.php";
+                  
+                }
+                ?>
+            <a href="<?= $link2 ?>" class="nav-link <?= $active2 ?>">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Subcategory
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+
+           <li class="nav-item">
+            <?php
+                $active2 = ""; 
+                if($page_title == "Products"){
+                  $link2 = "javascript:void(0)";
+                  $active2 = "active";
+                }else{
+                  $link2 = "products.php";
+                  
+                }
+                ?>
+            <a href="<?= $link2 ?>" class="nav-link <?= $active2 ?>">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Products
                 <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>

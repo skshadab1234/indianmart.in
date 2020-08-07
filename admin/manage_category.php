@@ -108,10 +108,10 @@ if(isset($_POST['submit'])){
 					  <div class="error mt8"><?php echo $msg?></div>
                     </div>
                      <div class="form-group">
-                    <label for="exampleInputPassword1">Seller Image</label>
+                    <label for="exampleInputPassword1">Category Image</label>
                     <input type="file" name="category_image"  class="form-control" <?= $image_required ?> >
                   </div>
-                  <div class="form-group" style="background-image: url(<?= SITE_SELLER_IMAGE.$update_seller['seller_img'] ?>);background-repeat: no-repeat;background-size: contain;width: 40px;height: 40px">
+                  <div class="form-group" style="background-image: url(<?= SITE_CATEGORY_IMAGE.$row['category_img'] ?>);background-repeat: no-repeat;background-size: contain;width: 40px;height: 40px">
                     
                   </div>
                     

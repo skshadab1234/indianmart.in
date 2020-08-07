@@ -11,7 +11,6 @@ if(isset($_POST['submit'])){
 	$res=mysqli_query($con,$sql);
 	if(mysqli_num_rows($res)>0){
 		$row=mysqli_fetch_assoc($res);
-		$_SESSION['IS_LOGIN']='yes';
     $_SESSION['ADMIN_ID']=$row['id'];
 		$_SESSION['ADMIN_USER']=$row['name'];
 		redirect('index.php');

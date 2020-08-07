@@ -7,3 +7,7 @@ admin panel design krna hai
 4. product table :- 	id,catid,subctid,prodname,description,unit price, og price, couponcode, shipping cost, product_measure, qty, status, added_by, added_on
 
 work ending today at page enquiry page
+
+5. product_name, desc, prod_img, unit/ ogprice, quantity, added by, added_on
+
+6. modal :- cat_id, sub_catid

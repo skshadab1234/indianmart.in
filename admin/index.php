@@ -1,4 +1,6 @@
-<?php include('top.php');?>
+<?php include('top.php');
+
+?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
