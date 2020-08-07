@@ -86,9 +86,8 @@ $res=mysqli_query($con,$sql);
                             <thead>
                             <tr style="text-align: center;">
                             <th width="5%">S.No #</th>
-                            <th width="15%">Product Detail</th>
+                            <th width="5%">Product Detail</th>
                             <th width="10%">Product Image</th>
-                            <th width="15%">Description</th>
                             <th width="10%">Shipping Cost</th>
                             <th width="15%">Product Dimensions</th>
                             <th width="10%">Added On</th>
@@ -109,9 +108,29 @@ $res=mysqli_query($con,$sql);
                                                <td>
                                                <h5> <?= $row['product_name'] ?></h5>
                                                 <!-- Button trigger modal -->
-                                  <a href="" data-toggle="modal" data-target="#pid<?= $row['pid'] ?>">
+                                 <h6> <a href="" data-toggle="modal" data-target="#pid<?= $row['pid'] ?>">
                                     view details
-                                  </a>
+                                  </a></h6>
+                                  <h6><a href="" data-toggle="modal" data-target="#desc<?= $row['pid'] ?>">view description</a>
+                                  </h6>
+
+                                   <div class="modal fade" id="desc<?= $row['pid'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                      <div class="modal-content" style="width: 100vw">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="exampleModalLongTitle"><?= $row['product_name'] ?></h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body" style="align-items: center;display: flex;justify-content: center;">
+                                         <div class="container">
+                                          <?= $row['description'] ?>
+                                         </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
                                   <!-- Modal -->
                                   <div class="modal fade" id="pid<?= $row['pid'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -146,9 +165,10 @@ $res=mysqli_query($con,$sql);
                                             </tbody>
                                           </table>
                                           </td>
+
                                         <td><div style="background-image: url(<?= SITE_PRODUCTS_IMAGE.$row['prod_img'] ?>);background-repeat: no-repeat;background-size: contain;width: 100px;height: 100px">
                                           </div></td>
-                                          <td><?= $row['description'] ?></td>
+                                         
                                           <td><?= ' ₹ '.number_format($row['shipping_cost'],1) ?></td>
                                           <td><?= $row['product_measure'] ?></td>
                                           <td><?= $row['added_on'] ?></td>

@@ -26,10 +26,12 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
   $page_title='Subcategory';
 }elseif($cur_path=='products.php' || $cur_path=='manage_products.php'){
   $page_title='Products';
+}elseif($cur_path=='subscription_plan.php' || $cur_path=='manage_subscription_plan.php'){
+  $page_title='Your Subscription';
 }elseif($cur_path=='enquiry.php'){
   $page_title='Enquiries';
 }
-
+                
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -230,7 +232,7 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
                 }
                 ?>
             <a href="<?= $link2 ?>" class="nav-link <?= $active2 ?>">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-shopping-basket"></i>
               <p>
                 Retailers
                 <!-- <span class="right badge badge-danger">New</span> -->
@@ -269,7 +271,7 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
                 }
                 ?>
             <a href="<?= $link2 ?>" class="nav-link <?= $active2 ?>">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-list-alt"></i>
               <p>
                 Category
                 <!-- <span class="right badge badge-danger">New</span> -->
@@ -288,7 +290,7 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
                 }
                 ?>
             <a href="<?= $link2 ?>" class="nav-link <?= $active2 ?>">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-list"></i>
               <p>
                 Subcategory
                 <!-- <span class="right badge badge-danger">New</span> -->
@@ -315,6 +317,26 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
               </p>
             </a>
           </li>
+            <li class="nav-item">
+            <?php
+                $active2 = ""; 
+                if($page_title == "Your Subscription"){
+                  $link2 = "javascript:void(0)";
+                  $active2 = "active";
+                }else{
+                  $link2 = "subscription_plan.php";
+                  
+                }
+                ?>
+            <a href="<?= $link2 ?>" class="nav-link <?= $active2 ?>">
+              <i class="nav-icon fas fa-paper-plane"></i>
+              <p>
+                Subscription Plans
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+
           <?php
                 $active2 = ""; 
                 if($page_title == "Enquiries"){

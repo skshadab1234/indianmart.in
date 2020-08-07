@@ -165,6 +165,8 @@ $res_subcategory=mysqli_query($con,"select * from Subcategory where status='1' o
   <link rel="stylesheet" href="template_admin/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="template_admin/dist/css/adminlte.min.css">
+   <!-- summernote -->
+  <link rel="stylesheet" href="template_admin/plugins/summernote/summernote-bs4.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
       <style type="text/css">
@@ -261,7 +263,8 @@ $res_subcategory=mysqli_query($con,"select * from Subcategory where status='1' o
 
                     <div class="form-group">
                       <label for="exampleInputName1">Description</label>
-                      	<textarea class="form-control" rows="4" cols="50" placeholder="Description" name="description" required><?= $description ?></textarea>
+                  <textarea class="textarea" placeholder="Place some text here"  name="description" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"  required>
+                  	<?= $description ?></textarea>
                     </div>
 
                     <div class="form-group">
@@ -416,30 +419,15 @@ $res_subcategory=mysqli_query($con,"select * from Subcategory where status='1' o
 		</script>
          <?php include 'footer.php'; ?>
 
-<!-- jQuery -->
-<script src="template_admin/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="template_admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- Select2 -->
-<script src="template_admin/plugins/select2/js/select2.full.min.js"></script>
-<!-- Bootstratemplate_admin/llistbox -->
-<script src="template_admin/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
-<!-- InputMask -->
-<script src="template_admin/plugins/moment/moment.min.js"></script>
-<script src="template_admin/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
-<!-- date-range-picker -->
-<script src="template_admin/plugins/daterangepicker/daterangepicker.js"></script>
-<!-- bootstrap color picker -->
-<script src="template_admin/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="template_admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-<!-- Bootstrap Switch -->
-<script src="template_admin/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
-<!-- AdminLTE App -->
-<script src="template_admin/dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="template_admin/dist/js/demo.js"></script>
+<!-- Summernote -->
+<script src="template_admin/plugins/summernote/summernote-bs4.min.js"></script>
 <!-- Page script -->
+<script>
+  $(function () {
+    // Summernote
+    $('.textarea').summernote()
+  })
+</script>
 <script>
   $(function () {
     //Initialize Select2 Elements
@@ -513,6 +501,7 @@ $res_subcategory=mysqli_query($con,"select * from Subcategory where status='1' o
 
   })
 </script>
+
       </div>
   </div>
       <!-- ./wrapper -->
