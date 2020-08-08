@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 11, 2020 at 06:55 AM
+-- Generation Time: Aug 08, 2020 at 08:35 AM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.2.12
 
@@ -63,7 +63,13 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id`, `catgeory_name`, `category_img`, `category_status`, `added_on`) VALUES
-(2, 'sasa1asasasa', '1596722875_assa_1594104908.jpg', 1, '2020-08-06 07:26:54');
+(1, 'Agriculture', '1596863323_agricultural-sciences-icon-image-2786-agriculture-png-300_300.png', 1, '2020-08-08 10:38:43'),
+(2, 'Apparel & Fashion', '1596863353_apparel.png', 1, '2020-08-08 10:39:13'),
+(3, 'Automobile', '1596863370_caaf968f80fdd0aaf1845fa74649e65e.png', 1, '2020-08-08 10:39:30'),
+(4, 'Brass Hardware and Components', '1596863403_screwdriver.png', 1, '2020-08-08 10:40:03'),
+(5, 'Business Services', '1596863424_download.png', 1, '2020-08-08 10:40:24'),
+(6, 'Chemicals', '1596866056_chemical-1293762_960_720.png', 1, '2020-08-08 10:40:40'),
+(7, 'Leather & Leather Products', '1596863477_pngtree-shopping-bag-icon-in-trendy-style-isolated-background-png-image_1536177.jpg', 1, '2020-08-08 10:41:17');
 
 -- --------------------------------------------------------
 
@@ -1645,20 +1651,46 @@ INSERT INTO `coupon_code` (`id`, `added_by`, `coupon_code`, `coupon_type`, `coup
 CREATE TABLE `enquires` (
   `id` int(11) NOT NULL,
   `retail_id` int(20) NOT NULL,
-  `wholesaler_id` int(20) NOT NULL,
+  `wholeseller_id` int(11) NOT NULL,
   `product_id` int(20) NOT NULL,
   `requirement_msg` text NOT NULL,
-  `daily_leads_per_day` int(30) NOT NULL,
-  `status` int(1) NOT NULL,
-  `added_on` datetime NOT NULL
+  `quantity` int(11) NOT NULL,
+  `unit` varchar(255) NOT NULL,
+  `enquiry_value` int(11) NOT NULL,
+  `estimate_rate` int(11) NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
+  `work_status` int(1) NOT NULL DEFAULT '0',
+  `added_on` datetime NOT NULL,
+  `show_on_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `enquiry_value`
+--
+
+CREATE TABLE `enquiry_value` (
+  `id` int(11) NOT NULL,
+  `from_rate` int(11) NOT NULL,
+  `to_rate` int(11) NOT NULL,
+  `status` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `enquires`
+-- Dumping data for table `enquiry_value`
 --
 
-INSERT INTO `enquires` (`id`, `retail_id`, `wholesaler_id`, `product_id`, `requirement_msg`, `daily_leads_per_day`, `status`, `added_on`) VALUES
-(2, 1, 3, 2, 'saasasfffasfsafsa', 121, 1, '0000-00-00 00:00:00');
+INSERT INTO `enquiry_value` (`id`, `from_rate`, `to_rate`, `status`) VALUES
+(1, 0, 1000, 1),
+(2, 1000, 3000, 1),
+(3, 3000, 5000, 1),
+(4, 5000, 10000, 1),
+(5, 10000, 20000, 1),
+(6, 20000, 50000, 1),
+(7, 50000, 1000000, 1),
+(8, 1000000, 2000000, 1),
+(9, 2000000, 5000000, 1);
 
 -- --------------------------------------------------------
 
@@ -1671,7 +1703,10 @@ CREATE TABLE `products` (
   `cat_id` int(11) NOT NULL,
   `sub_catid` int(11) NOT NULL,
   `product_name` varchar(255) NOT NULL,
+  `product_name_slug` varchar(255) NOT NULL,
   `description` text NOT NULL,
+  `price` int(11) NOT NULL,
+  `price_unit` varchar(25) NOT NULL,
   `prod_img` varchar(255) NOT NULL,
   `shipping_cost` int(11) NOT NULL,
   `product_measure` varchar(255) NOT NULL,
@@ -1684,8 +1719,9 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `cat_id`, `sub_catid`, `product_name`, `description`, `prod_img`, `shipping_cost`, `product_measure`, `status`, `added_by`, `added_on`) VALUES
-(11, 2, 3, 'Love Bite', '                  	sasas', '434930600_1596716700_khan-shadab_1594910437.jpg', 5000, '500kg, 600wt', 1, 39, '2020-08-10 07:35:30');
+INSERT INTO `products` (`id`, `cat_id`, `sub_catid`, `product_name`, `product_name_slug`, `description`, `price`, `price_unit`, `prod_img`, `shipping_cost`, `product_measure`, `status`, `added_by`, `added_on`) VALUES
+(2, 2, 3, 'Love Bite', 'Love-Bite', '                  	sasas', 300, 'pieces', '434930600_1596716700_khan-shadab_1594910437.jpg', 5000, '500kg, 600wt', 1, 49, '2020-08-10 07:35:30'),
+(12, 2, 3, 'Underwear For men', 'Underwear-For-men', 'Best Underwear for men', 200, 'pieces', '687484760_.jpg', 200, '10kg, 20kg', 1, 49, '2020-08-11 12:37:00');
 
 -- --------------------------------------------------------
 
@@ -1709,10 +1745,11 @@ CREATE TABLE `product_details` (
 --
 
 INSERT INTO `product_details` (`id`, `product_id`, `attribute`, `price`, `old_price`, `qty`, `status`, `added_on`) VALUES
-(5, 10, 'Half1', 20011, 100, 100, 1, '2020-08-07 12:02:53'),
-(8, 10, 'Mychoice', 1200, 200, 20, 1, '2020-08-07 12:46:38'),
-(9, 10, 'skshadb1234', 5000, 50000, 50, 1, '2020-08-10 07:29:55'),
-(10, 11, 'Half', 20, 200, 12, 1, '2020-08-10 07:35:30');
+(5, 2, 's', 200, 100, 100, 1, '2020-08-07 12:02:53'),
+(8, 2, 'X', 1200, 200, 20, 1, '2020-08-07 12:46:38'),
+(9, 2, 'xl', 5000, 50000, 50, 1, '2020-08-10 07:29:55'),
+(10, 10, 'xxl', 20, 200, 12, 1, '2020-08-10 07:35:30'),
+(11, 2, 'S', 200, 1200, 12, 1, '2020-08-11 12:37:00');
 
 -- --------------------------------------------------------
 
@@ -1730,6 +1767,10 @@ CREATE TABLE `retailers` (
   `rand_str` int(11) NOT NULL,
   `retailer_img` varchar(200) NOT NULL,
   `last_login` int(11) NOT NULL,
+  `retailer_country` int(11) NOT NULL,
+  `retailer_state` int(11) NOT NULL,
+  `retailer_city` int(11) NOT NULL,
+  `retailer_address` varchar(255) NOT NULL,
   `status` varchar(1) NOT NULL DEFAULT '0',
   `added_on` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -1738,8 +1779,9 @@ CREATE TABLE `retailers` (
 -- Dumping data for table `retailers`
 --
 
-INSERT INTO `retailers` (`id`, `shop_name`, `owner_name`, `retailer_email`, `retailer_password`, `otp`, `rand_str`, `retailer_img`, `last_login`, `status`, `added_on`) VALUES
-(1, 'My store', 'asasasasasas', 'KS615044@GMAIL.COM', '$2y$10$U8zLWtZ36MRxj/az516V7.5F0kdRXZ0.eIYSBg43hkdcaN5LmAlOO', 0, 0, '1596716700_khan-shadab_1594910437.jpg', 0, '1', '2020-08-06 04:59:14');
+INSERT INTO `retailers` (`id`, `shop_name`, `owner_name`, `retailer_email`, `retailer_password`, `otp`, `rand_str`, `retailer_img`, `last_login`, `retailer_country`, `retailer_state`, `retailer_city`, `retailer_address`, `status`, `added_on`) VALUES
+(3, '', 'Aftab Khan', 'ksfjjks@gmail.com', '$2y$10$HFmCS0jfk7xtfzfAXPV2cumv5QBlncIT4y9r/6A/osvY3.mXp4H8.', 0, 47496, '', 0, 0, 0, 0, '', '0', '2020-08-11 09:09:27'),
+(4, '', 'Khan Shadab', 'ks579265@gmail.com', '$2y$10$0aNdlaGlOaAJVP6edjKzYepKFUzbKV6/qnpvmXY9UWvGQtG/4/ddm', 74136, 95383, '', 0, 0, 0, 0, '', '0', '2020-08-11 09:12:00');
 
 -- --------------------------------------------------------
 
@@ -1749,53 +1791,49 @@ INSERT INTO `retailers` (`id`, `shop_name`, `owner_name`, `retailer_email`, `ret
 
 CREATE TABLE `state` (
   `StateID` int(11) NOT NULL,
-  `CountryID` int(11) NOT NULL,
-  `StateName` varchar(50) NOT NULL,
-  `Notes` longtext,
-  `ChangedBy` varchar(50) DEFAULT NULL,
-  `ChangeDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `StateName` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `state`
 --
 
-INSERT INTO `state` (`StateID`, `CountryID`, `StateName`, `Notes`, `ChangedBy`, `ChangeDate`) VALUES
-(36, 1, 'ANDHRA PRADESH', NULL, 'Nieanjan', '2020-08-09 12:37:01'),
-(37, 1, 'ASSAM', NULL, 'Nieanjan', '2020-08-09 12:37:01'),
-(38, 1, 'ARUNACHAL PRADESH', NULL, 'Nieanjan', '2020-08-09 12:37:01'),
-(39, 1, 'GUJRAT', NULL, 'Nieanjan', '2020-08-09 12:37:01'),
-(40, 1, 'BIHAR', NULL, 'Nieanjan', '2020-08-09 12:37:01'),
-(41, 1, 'HARYANA', NULL, 'Nieanjan', '2020-08-09 12:37:01'),
-(42, 1, 'HIMACHAL PRADESH', NULL, 'Nieanjan', '2020-08-09 12:37:01'),
-(43, 1, 'JAMMU & KASHMIR', NULL, 'Nieanjan', '2020-08-09 12:37:01'),
-(44, 1, 'KARNATAKA', NULL, 'Nieanjan', '2020-08-09 12:37:01'),
-(45, 1, 'KERALA', NULL, 'Nieanjan', '2020-08-09 12:37:01'),
-(46, 1, 'MADHYA PRADESH', NULL, 'Nieanjan', '2020-08-09 12:37:02'),
-(47, 1, 'MAHARASHTRA', NULL, 'Nieanjan', '2020-08-09 12:37:02'),
-(48, 1, 'MANIPUR', NULL, 'Nieanjan', '2020-08-09 12:37:02'),
-(49, 1, 'MEGHALAYA', NULL, 'Nieanjan', '2020-08-09 12:37:02'),
-(50, 1, 'MIZORAM', NULL, 'Nieanjan', '2020-08-09 12:37:02'),
-(51, 1, 'NAGALAND', NULL, 'Nieanjan', '2020-08-09 12:37:02'),
-(52, 1, 'ORISSA', NULL, 'Nieanjan', '2020-08-09 12:37:02'),
-(53, 1, 'PUNJAB', NULL, 'Nieanjan', '2020-08-09 12:37:02'),
-(54, 1, 'RAJASTHAN', NULL, 'Nieanjan', '2020-08-09 12:37:02'),
-(55, 1, 'SIKKIM', NULL, 'Nieanjan', '2020-08-09 12:37:02'),
-(56, 1, 'TAMIL NADU', NULL, 'Nieanjan', '2020-08-09 12:37:02'),
-(57, 1, 'TRIPURA', NULL, 'Nieanjan', '2020-08-09 12:37:02'),
-(58, 1, 'UTTAR PRADESH', NULL, 'Nieanjan', '2020-08-09 12:37:02'),
-(59, 1, 'WEST BENGAL', NULL, 'Nieanjan', '2020-08-09 12:37:02'),
-(60, 1, 'DELHI', NULL, 'Nieanjan', '2020-08-09 12:37:02'),
-(61, 1, 'GOA', NULL, 'Nieanjan', '2020-08-09 12:37:02'),
-(62, 1, 'PONDICHERY', NULL, 'Nieanjan', '2020-08-09 12:37:02'),
-(63, 1, 'LAKSHDWEEP', NULL, 'Nieanjan', '2020-08-09 12:37:02'),
-(64, 1, 'DAMAN & DIU', NULL, 'Nieanjan', '2020-08-09 12:37:02'),
-(65, 1, 'DADRA & NAGAR', NULL, 'Nieanjan', '2020-08-09 12:37:02'),
-(66, 1, 'CHANDIGARH', NULL, 'Nieanjan', '2020-08-09 12:37:02'),
-(67, 1, 'ANDAMAN & NICOBAR', NULL, 'Nieanjan', '2020-08-09 12:37:03'),
-(68, 1, 'UTTARANCHAL', NULL, 'Nieanjan', '2020-08-09 12:37:03'),
-(69, 1, 'JHARKHAND', NULL, 'Nieanjan', '2020-08-09 12:37:03'),
-(70, 1, 'CHATTISGARH', NULL, 'Nieanjan', '2020-08-09 12:37:03');
+INSERT INTO `state` (`StateID`, `StateName`) VALUES
+(36, 'ANDHRA PRADESH'),
+(37, 'ASSAM'),
+(38, 'ARUNACHAL PRADESH'),
+(39, 'GUJRAT'),
+(40, 'BIHAR'),
+(41, 'HARYANA'),
+(42, 'HIMACHAL PRADESH'),
+(43, 'JAMMU & KASHMIR'),
+(44, 'KARNATAKA'),
+(45, 'KERALA'),
+(46, 'MADHYA PRADESH'),
+(47, 'MAHARASHTRA'),
+(48, 'MANIPUR'),
+(49, 'MEGHALAYA'),
+(50, 'MIZORAM'),
+(51, 'NAGALAND'),
+(52, 'ORISSA'),
+(53, 'PUNJAB'),
+(54, 'RAJASTHAN'),
+(55, 'SIKKIM'),
+(56, 'TAMIL NADU'),
+(57, 'TRIPURA'),
+(58, 'UTTAR PRADESH'),
+(59, 'WEST BENGAL'),
+(60, 'DELHI'),
+(61, 'GOA'),
+(62, 'PONDICHERY'),
+(63, 'LAKSHDWEEP'),
+(64, 'DAMAN & DIU'),
+(65, 'DADRA & NAGAR'),
+(66, 'CHANDIGARH'),
+(67, 'ANDAMAN & NICOBAR'),
+(68, 'UTTARANCHAL'),
+(69, 'JHARKHAND'),
+(70, 'CHATTISGARH');
 
 -- --------------------------------------------------------
 
@@ -1806,18 +1844,13 @@ INSERT INTO `state` (`StateID`, `CountryID`, `StateName`, `Notes`, `ChangedBy`, 
 CREATE TABLE `subcategory` (
   `id` int(11) NOT NULL,
   `subcategory_name` varchar(255) NOT NULL,
+  `sub_catslug` varchar(500) NOT NULL,
   `subcategory_img` varchar(255) NOT NULL,
   `cat_id_of_subcat` int(11) NOT NULL,
+  `type` varchar(255) NOT NULL,
   `status` int(1) NOT NULL,
   `added_on` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `subcategory`
---
-
-INSERT INTO `subcategory` (`id`, `subcategory_name`, `subcategory_img`, `cat_id_of_subcat`, `status`, `added_on`) VALUES
-(3, 'Biryani', '1596775058_banner.jpg', 2, 1, '2020-08-07 10:07:38');
 
 -- --------------------------------------------------------
 
@@ -1878,9 +1911,8 @@ CREATE TABLE `wholeseller` (
 --
 
 INSERT INTO `wholeseller` (`id`, `seller_img`, `seller_name`, `seller_email`, `seller_password`, `otp`, `seller_shop_name`, `seller_country`, `seller_state`, `seller_city`, `seller_address`, `category`, `gst_img`, `rand_str`, `status`, `admin_approv`, `admin_blocked`, `blocking_msg`, `added_on`) VALUES
-(39, '', 'khan ', 'ks615044@gmail.com', '$2y$10$8u.cV0tpAVX7OESmZBQ2h.xcZn6evus24HkZbRhk.u3400QKxySaq', 32696, 'shadabzone', 99, 38, 3, 'Height\n6\' 0\" (183 centimeters)\nWeight\n236.9 pounds (107.7 kilograms)\nHair Color\nBrown\nBlood Type\nO+\nMother\'s Maiden Name\nKeene\nCivil Status\nSingle\nEducational Background\nHigh school diploma or GED\nDriver LicenseP362-472-664-352 - issued in Minnesota (MN) ', 2, '1597064562_update.php', 40975, 1, 1, 0, '', '2020-08-10 05:52:30'),
-(45, '', 'khan Shadab', 'ksfjjks@gmail.com', '$2y$10$TGeu7Nz8FiQ7ATXs4j.vXuGaoH.pj30/HPBc0Od6H9pHF5uH2fZuW', 0, '', 0, 0, 0, '', 0, '', 81261, 0, 0, 0, '', '2020-08-11 09:16:10'),
-(47, '', 'Khan Shadab', 'skshadabkhojo@gmail.com', '$2y$10$Vcj6NF1eNs4P99o4avCBouSAo61M4bWeU3QQCFqMrHD1fVX42nmlu', 0, '', 0, 0, 0, '', 0, '', 67962, 0, 0, 0, '', '2020-08-11 10:18:32');
+(39, '', 'khan ', 'ks615044@gmail.com', '$2y$10$8u.cV0tpAVX7OESmZBQ2h.xcZn6evus24HkZbRhk.u3400QKxySaq', 33508, 'shadabzone', 99, 38, 3, 'Height\n6\' 0\" (183 centimeters)\nWeight\n236.9 pounds (107.7 kilograms)\nHair Color\nBrown\nBlood Type\nO+\nMother\'s Maiden Name\nKeene\nCivil Status\nSingle\nEducational Background\nHigh school diploma or GED\nDriver LicenseP362-472-664-352 - issued in Minnesota (MN) ', 2, '1597064562_update.php', 40975, 1, 1, 0, '', '2020-08-10 05:52:30'),
+(49, '', 'khan shadab', 'ks579265@gmail.com', '$2y$10$YeaTnIm8.tVmFawSvfMiGOCMz6dsYgpU0zNuLlBi6IlZJy0USji7e', 0, 'SKSHADAB', 99, 38, 817, 'Sayeed Manzil, kausa jama masjid, opp Irani Petrol Pump, Room no: 104', 2, '1597124119_ecomm.sql', 53061, 1, 1, 0, '', '2020-08-11 10:33:40');
 
 --
 -- Indexes for dumped tables
@@ -1926,6 +1958,12 @@ ALTER TABLE `coupon_code`
 -- Indexes for table `enquires`
 --
 ALTER TABLE `enquires`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `enquiry_value`
+--
+ALTER TABLE `enquiry_value`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1984,7 +2022,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `cities`
@@ -2014,25 +2052,31 @@ ALTER TABLE `coupon_code`
 -- AUTO_INCREMENT for table `enquires`
 --
 ALTER TABLE `enquires`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `enquiry_value`
+--
+ALTER TABLE `enquiry_value`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `product_details`
 --
 ALTER TABLE `product_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `retailers`
 --
 ALTER TABLE `retailers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `state`
@@ -2044,7 +2088,7 @@ ALTER TABLE `state`
 -- AUTO_INCREMENT for table `subcategory`
 --
 ALTER TABLE `subcategory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `subscription_plan`
@@ -2056,7 +2100,7 @@ ALTER TABLE `subscription_plan`
 -- AUTO_INCREMENT for table `wholeseller`
 --
 ALTER TABLE `wholeseller`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

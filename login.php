@@ -12,7 +12,7 @@ if(isset($_SESSION['RETAIL_ID'])){
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Login - Seller</title>
+  <title>Login - Retailer</title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="admin/assets/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="admin/assets/css/vendor.bundle.base.css">
@@ -51,7 +51,7 @@ if(isset($_SESSION['RETAIL_ID'])){
                   <input type="password" class="form-control form-control-lg" id="password" placeholder="Password" required>
                 </div>
                 <div class="mt-3 ">
-                  <input type="button" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" onclick="password_login()" value="Login" />
+                  <input type="button"  class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" onclick="password_login()" value="Login" />
                 </div>
                 <div class="container" style="margin-top: 10px">
                   <span id="password_error" style="color: red" class="field_error"></span>
@@ -66,7 +66,7 @@ if(isset($_SESSION['RETAIL_ID'])){
                 </div>
               
                 <div class="mt-3 first_box">
-                  <input type="button" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" onclick="send_otp()" value="Send OTP" />
+                  <input type="button"  class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" onclick="send_otp()" value="Send OTP" />
                 </div>
 
                 <div class="form-group second_box" >
@@ -98,7 +98,7 @@ if(isset($_SESSION['RETAIL_ID'])){
                   echo "Password";
                 }
                ?></a></small></p>
-             <small style="font-size: 12px">Not a seller ?  <a href="signup.php" >Create account</a> </small>
+             <small style="font-size: 12px">Not a retailer ?  <a href="signup.php" >Create account</a> </small>
           </div>
 
             </div>
@@ -120,8 +120,12 @@ function send_otp(){
     success:function(result){
       if(result=='yes'){
         jQuery('.second_box').show();
-        jQuery('#email_error').html('Please Wait......')
         jQuery('.first_box').hide();
+
+      }
+       if(result=='empty'){
+        jQuery('#email_error').html("You cannot leave this field empty");
+
       }
       if(result=='not_exist'){
         jQuery('#email_error').html('Please enter valid email');

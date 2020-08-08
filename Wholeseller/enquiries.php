@@ -188,7 +188,7 @@ $res=mysqli_query($con,$sql);
                                     <?php } }?>
                                            <?php
                                            $sql="SELECT *,enquires.id as enid, enquires.status as enstatus FROM `enquires` LEFT JOIN wholeseller ON enquires.wholeseller_id = wholeseller.id LEFT JOIN retailers ON enquires.retail_id = retailers.id LEFT JOIN products ON enquires.product_id = products.id LEFT JOIN country ON retailers.retailer_country = country.id LEFT JOIN state ON state.StateID = retailers.retailer_state LEFT JOIN cities ON cities.city_id = retailers.retailer_city LEFT JOIN enquiry_value ON enquires.enquiry_value = enquiry_value.id WHERE  enquires.status != 0 and wholeseller_id = '$id' and show_on_date > '$date'";
-                                      $res=mysqli_query($con,$sql);
+                                         $res=mysqli_query($con,$sql);
 
                                             if(mysqli_num_rows($res)>0){
                                       $i=2;
@@ -202,7 +202,7 @@ $res=mysqli_query($con,$sql);
                                                <h5> <?= $row['owner_name'] ?></h5>
                                                 <!-- Button trigger modal -->
                                  <h6> <a href="" data-toggle="modal" data-target="#<?= $row['enid'] ?>">
-                                    more details
+                                    More details
                                   </a></h6>
 
                                    <div class="modal fade" id="<?= $row['enid'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -229,7 +229,7 @@ $res=mysqli_query($con,$sql);
                                     </div>
                                   </div>
 
-                                   <div class="modal fade" id="prod1<?= $row['product_name'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                   <div class="modal fade" id="<?= $row['product_name'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                       <div class="modal-content" style="width: 100vw">
                                         <div class="modal-header">
@@ -241,10 +241,10 @@ $res=mysqli_query($con,$sql);
                                         <div class="modal-body" style="align-items: center;display: flex;justify-content: center;">
                                          <div class="container">
                                            <?php
-                                            $data1 = $row['show_on_date'];
-                                            $new_date1 = date('d M, Y', strtotime($data1));
+                                            $data2 = $row['show_on_date'];
+                                            $new_date2 = date('d M, Y', strtotime($data2));
                                             ?>
-                                            <h3 style="color: red">It will resume on <?= $new_date1 ?></h3>
+                                            <h3 style="color: red">It will resume on <?= $new_date2 ?></h3>
                                             <?php
                                             ?>
                                          </div>
@@ -256,7 +256,7 @@ $res=mysqli_query($con,$sql);
                                           </td>
 
                                         <td>
-                                         <a href="javascript:void(0)" data-toggle="modal" data-target="#prod1<?= $row['product_name'] ?>">View details</a>
+                                         <a href="javascript:void(0)" data-toggle="modal" data-target="#<?= $row['enid'] ?>">View details</a>
                                         </td>
                                          <td>
                                           <button class="btn btn-danger">Unlock On <?php

@@ -109,7 +109,7 @@ include('function.inc.php');
       jQuery(".btn-primary").html("Register");
       jQuery('#error_field').html("");
       jQuery('#email_field').html("");
-      
+      alert(result);
       var data=jQuery.parseJSON(result);
      if(data.status=='error'){
          jQuery('#'+data.field).html(data.msg);
