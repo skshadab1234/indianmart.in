@@ -1,0 +1,1 @@
+<?phpsession_start();unset($_SESSION['RETAIL_ID']);unset($_SESSION['RETAIL_EMAIL']);header('location:login.php');?>

@@ -156,11 +156,7 @@ $res=mysqli_query($con,$sql);
               <h2><?= $row['subscription_plan_name'] ?></h2>
               <div class="price"></div>
               <ul class="features">
-                <li><i class="fas fa-check-circle"></i> Unlimited Websites</li>
-                <li><i class="fas fa-check-circle"></i> 1 User</li>
-                <li><i class="fas fa-check-circle"></i> 100MB Space/website</li>
-                <li><i class="fas fa-check-circle"></i> Continuous deployment</li>
-                <li><i class="fas fa-times-circle"></i> No priority support</li>
+                <li><i class="fas fa-check-circle"></i><?= $row['no_of_enquires'] ?> Enquires Just in <?= '₹ '.number_format($row['plan_price'],1) ?> For <?= $row['plan_expire'] ?></li>
               </ul>
               
                 <div class="tools">  

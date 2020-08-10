@@ -36,32 +36,28 @@ function redirect($link){
 }
 
 
-function send_email($email,$html,$subject){
-  $mail=new PHPMailer(true);
-  $mail->isSMTP();
-  $mail->Host="smtp.gmail.com";
-  $mail->Port=587;
-  $mail->SMTPSecure="tls";
-  $mail->SMTPAuth=true;
-  $mail->Username="skshadabkhojo@gmail.com";
-  $mail->Password="adsenseaccount";
-  $mail->setFrom("skshadabkhojo@gmail.com");
-  $mail->addAddress($email);
-  $mail->IsHTML(true);
-  $mail->Subject=$subject;
-  $mail->Body=$html;
-  $mail->SMTPOptions=array('ssl'=>array(
-   'verify_peer'=>false,
-   'verify_peer_name'=>false,
-   'allow_self_signed'=>false
-  ));
-  if($mail->send()){
-   //echo "done";
-  }else{
-   //echo "Error occur";
-  }
+function smtp_mailer($to,$subject, $msg){
+      $mail = new PHPMailer(); 
+      $mail->IsSMTP(); 
+      $mail->SMTPDebug = 1; 
+      $mail->SMTPAuth = true; 
+      $mail->SMTPSecure = 'TLS'; 
+      $mail->Host = "smtp.sendgrid.net";
+      $mail->Port = 587; 
+      $mail->IsHTML(true);
+      $mail->CharSet = 'UTF-8';
+      $mail->Username = "ks615044@gmail.com";
+      $mail->Password = "skshadab1234";
+      $mail->SetFrom("ks615044@gmail.com");
+      $mail->Subject = $subject;
+      $mail->Body =$msg;
+      $mail->AddAddress($to);
+      if(!$mail->Send()){
+      return 0;
+      }else{
+      return 1;
+      }
 }
-
 
 function rand_str(){
 	$str=str_shuffle("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz");

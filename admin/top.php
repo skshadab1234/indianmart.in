@@ -5,6 +5,8 @@ include('session.php');
 if(!isset($_SESSION['ADMIN_ID'])){
   redirect('login.php');
 }
+$image = (!empty($row['photo']) ? SITE_USER_IMAGE.$row['photo'] : SITE_USER_IMAGE."noimage.jpg");
+
 
 $curStr=$_SERVER['REQUEST_URI'];
 $curArr=explode('/',$curStr);
@@ -173,8 +175,7 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button"><i
-            class="fas fa-th-large"></i></a>
+        <a class="nav-link" href="logout.php">Logout</a>
       </li>
     </ul>
   </nav>
@@ -184,7 +185,7 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="myaccount.php" class="brand-link">
-      <img src="<?= SITE_USER_IMAGE.$admin['photo'] ?>" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+      <img src="<?= $image ?>" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light"><?php echo $admin['name'] ?></span>
     </a>
@@ -198,9 +199,11 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column nav-legacy" >
+        <ul class="nav nav-pills nav-sidebar flex-column nav-legacy" data-widget="treeview" role="menu" data-accordion="false" >
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+          
+
           <li class="nav-item">
             <?php 
                 if($page_title == "Dashboard"){
@@ -310,7 +313,7 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
                 }
                 ?>
             <a href="<?= $link2 ?>" class="nav-link <?= $active2 ?>">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-object-group"></i>
               <p>
                 Products
                 <!-- <span class="right badge badge-danger">New</span> -->
@@ -339,27 +342,6 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
 
           <?php
                 $active2 = ""; 
-                if($page_title == "Enquiries"){
-                  $link2 = "javascript:void(0)";
-                  $active2 = "active";
-                }else{
-                  $link2 = "enquiry.php";
-                  
-                }
-                ?>
-          <li class="nav-item">
-               
-            <a href="<?= $link2 ?>" class="nav-link <?=  $active2 ?>">
-              <i class="nav-icon fas fa-address-book"></i>
-              <p>
-                Enquiries
-              </p>
-            </a>
-           
-          </li>
-
-          <?php
-                $active2 = ""; 
                 if($page_title == "Setting"){
                   $link2 = "javascript:void(0)";
                   $active2 = "active";
@@ -377,6 +359,47 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
               </p>
             </a>
            
+          </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link ">
+              <i class="nav-icon fas fa-plus"></i>
+              <p>
+                More
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="#" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Feedback</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Share App</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Help & Support</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>About Indiankart</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Why Indiankart</p>
+                </a>
+              </li>
+            </ul>
           </li>
         </ul>
       </nav>

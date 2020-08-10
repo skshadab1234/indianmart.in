@@ -25,7 +25,7 @@ if(isset($_POST['submit'])){
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Food Ordering Admin Login</title>
+  <title>Login - Admin</title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="assets/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="assets/css/vendor.bundle.base.css">
@@ -44,9 +44,8 @@ if(isset($_POST['submit'])){
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left p-5">
               <div class="brand-logo text-center">
-                <img src="assets/images/logo.png" alt="logo">
+                <h3>Login to Admin Panel</h3>
               </div>
-              <h6 class="font-weight-light">Sign in to continue.</h6>
               <form class="pt-3" method="post">
                 <div class="form-group">
                   <input type="textbox" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Username" name="username" required>
@@ -60,7 +59,11 @@ if(isset($_POST['submit'])){
                 
               </form>
 			  <div class="login_msg"><?php echo $msg?></div>
+         <div class="a" style="width: 100%;height: 100%;position: relative;right: 0;padding: 28px;">
+              <a href="../index.php" style="position: absolute;right: 0;text-decoration: none;">Back to Seller</a>
             </div>
+            </div>
+           
           </div>
         </div>
       </div>
