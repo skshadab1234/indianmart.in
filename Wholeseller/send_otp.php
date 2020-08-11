@@ -1,14 +1,15 @@
 <?php
 session_start();
+include('../database.inc.php');
+include('../function.inc.php');
 
-  use PHPMailer\PHPMailer\PHPMailer;
-  use PHPMailer\PHPMailer\Exception;
-
-$con=mysqli_connect('localhost','root','','indiamart');
 $email=$_POST['email'];
 $res=mysqli_query($con,"select * from wholeseller where seller_email='$email'");
 $count=mysqli_num_rows($res);
 $row = mysqli_fetch_assoc($res);
+if (empty($email)) {
+  echo "empty";
+}
 if($count>0){
 	$otp=rand(11111,99999);
 	mysqli_query($con,"update wholeseller set otp='$otp' where seller_email='$email'");
@@ -23,29 +24,8 @@ if($count>0){
 
   // Include autoload.php file
   require '../vendor/autoload.php';
-  // Create object of PHPMailer class
- 	 $mail = new PHPMailer(true);
-
-      $mail->isSMTP();
-      $mail->Host = 'smtp.gmail.com';
-      $mail->SMTPAuth = true;
-      // Gmail ID which you want to use as SMTP server
-      $mail->Username = 'ks615044@gmail.com';
-      // Gmail Password
-      $mail->Password = '*';
-      $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-      $mail->Port = 587;
-
-      // Email ID from which you want to send the email
-      $mail->setFrom('ks615044@gmail.com');
-      // Recipient Email ID where you want to receive emails
-      $mail->addAddress($email);
-
-      $mail->isHTML(true);
-      $mail->Subject = $subject;
-      $mail->Body = $html;
-
-      $mail->send();
+ 
+ send_mail($email,$subject,$html);
       echo  'yes';
   }else{
 	$output =  "not_exist";

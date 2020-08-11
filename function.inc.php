@@ -42,6 +42,34 @@ function rand_str(){
 	
 }
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+function send_mail($email,$subject,$html){
+  // Create object of PHPMailer class
+         $mail = new PHPMailer(true);
+
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            // Gmail ID which you want to use as SMTP server
+            $mail->Username = 'ks615044@gmail.com';
+            // Gmail Password
+            $mail->Password = '';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            // Email ID from which you want to send the email
+            $mail->setFrom('ks615044@gmail.com');
+            // Recipient Email ID where you want to receive emails
+            $mail->addAddress($email);
+
+            $mail->isHTML(true);
+            $mail->Subject = $subject;
+            $mail->Body = $html;
+
+            $mail->send();
+}
 
 function getUserCart(){
 	global $con;

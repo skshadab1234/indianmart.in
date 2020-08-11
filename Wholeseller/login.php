@@ -66,7 +66,7 @@ if(isset($_SESSION['SELLER_ID'])){
                 </div>
               
                 <div class="mt-3 first_box">
-                  <input type="button" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" onclick="send_otp()" value="Send OTP" />
+                  <input type="button"  class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" onclick="send_otp()" value="Send OTP" />
                 </div>
 
                 <div class="form-group second_box" >
@@ -112,7 +112,6 @@ if(isset($_SESSION['SELLER_ID'])){
   </div>
 <script>
 function send_otp(){
-  jQuery('#submit_otp').html('Please Wait......');
   var email=jQuery('#email').val();
   jQuery.ajax({
     url:'send_otp.php',
@@ -122,6 +121,10 @@ function send_otp(){
       if(result=='yes'){
         jQuery('.second_box').show();
         jQuery('.first_box').hide();
+
+      }
+       if(result=='empty'){
+        jQuery('#email_error').html("You cannot leave this field empty");
 
       }
       if(result=='not_exist'){
