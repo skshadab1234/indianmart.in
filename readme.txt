@@ -11,3 +11,8 @@ work ending today at page enquiry page
 5. product_name, desc, prod_img, unit/ ogprice, quantity, added by, added_on
 
 6. modal :- cat_id, sub_catid
+
+11 aug 2020    
+
+1 approved
+0 not approved

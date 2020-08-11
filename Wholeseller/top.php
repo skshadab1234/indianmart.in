@@ -7,6 +7,9 @@ $curStr=$_SERVER['REQUEST_URI'];
 $curArr=explode('/',$curStr);
 $cur_path=$curArr[count($curArr)-1];
 
+if (empty($wholeseller['seller_shop_name']) || empty($wholeseller['seller_country']) > 0 || empty($wholeseller['seller_state']) > 0 || empty($wholeseller['seller_city']) > 0 || empty($wholeseller['seller_address']) || empty($wholeseller['category']) > 0 || empty($wholeseller['gst_img']) || empty($wholeseller['status']) > 0  || empty($wholeseller['admin_approv']) > 0  ) {
+  redirect('index.php');
+}
 
 $page_title='';
 if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
@@ -15,6 +18,10 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
   $page_title='Products';
 }elseif($cur_path=='coupon_code.php' || $cur_path=='manage_coupon_code.php' || $cur_path==''){
   $page_title='Coupon Code';
+}elseif($cur_path=='contact_us.php'){
+  $page_title='Contact us';
+}elseif($cur_path=='enquiries.php'){
+  $page_title='Enquiry';
 }          
 ?>
 <!DOCTYPE html>
@@ -45,6 +52,11 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
     .select2-container--default .select2-selection--single{
       height: 40px;
     }
+    #overlay_lock{
+    filter: blur(3px);
+    user-select: none;
+    }
+
   </style>
 </head>
 
@@ -266,6 +278,25 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
                 <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>
+          </li>
+
+           <li class="nav-item">
+            <?php 
+            $active1 = "";
+                if($page_title == "Enquiry"){
+                  $link = "javascript:void(0)";
+                  $active1 = "active";
+                }else{
+                  $link = "enquiries.php";
+                }
+                ?>
+            <a href="<?= $link ?>" class="nav-link <?= $active1 ?>">
+              <i class="nav-icon fas fa-envelope"></i>
+              <p>
+                Enquiries
+              </p>
+            </a>
+           
           </li>
         </ul>
       </nav>

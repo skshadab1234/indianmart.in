@@ -98,12 +98,12 @@ $res=mysqli_query($con,$sql);
                             <thead>
                              <tr style="text-align: center;">
                             <th width="5%">S.No #</th>
+                            <th width="10%">Approve Gst</th>
                             <th width="15%">Seller Profile</th>
                             <th width="10%">Seller Shop Name</th>
                             <th width="15%">Seller Email</th>
                             <th width="15%">Seller Name</th>
                             <th width="10%">Status</th>
-                            <th width="10%">Approve Gst</th>
 						              	<th width="10%">Added On</th>
                             <th width="15%">Actions</th>
                         </tr>
@@ -120,25 +120,7 @@ $res=mysqli_query($con,$sql);
 						?>
 						<tr style="text-align: center;"> 
                             <td><?php echo $i?></td>
-                            <td><div style="background-image: url(<?= SITE_SELLER_IMAGE.$row['seller_img'] ?>);background-repeat: no-repeat;background-size: contain;width: 100px;height: 100px">
-                            </div></td>
-                            <td><?php echo $row['seller_shop_name']?></td>
-							<td><?php echo $row['seller_email'].' '.$status_boy ?></td>
-							<td><?php echo $row['seller_name']?></td>
-							<td><?php 
-								if ($row['status'] == 1) {
-									$active = "success";
-                  $text = "Verified";
-									$color =  '';
-								}else{
-                  $text = "Not verified";
-									$active = "not active";
-									$color = "background: red;color:#fff";
-								}
-
-                
-							  ?> <button class="btn btn-<?= $active ?>" style="<?= $color ?>"><?= $text ?></button></td>
-                <td><a href="javascript:void(0)" data-toggle="modal" data-target="#view_gst<?= $row['id'] ?>">View Gst</a>
+                            <td><a href="javascript:void(0)" data-toggle="modal" data-target="#view_gst<?= $row['id'] ?>">View Gst</a>
                   <?php 
               if($row['admin_blocked'] == 1){
                   $admin_text = "Blocked";
@@ -192,6 +174,25 @@ $res=mysqli_query($con,$sql);
                      <h5  class="btn" style="background:green;border: none;padding: 5px;color: #fff;font-size: 15px">Approved</h5>
                   <?php } ?>
                 </td>
+                            <td><div style="background-image: url(<?= SITE_SELLER_IMAGE.$row['seller_img'] ?>);background-repeat: no-repeat;background-size: contain;width: 100px;height: 100px">
+                            </div></td>
+                            <td><?php echo $row['seller_shop_name']?></td>
+							<td><?php echo $row['seller_email'].' '.$status_boy ?></td>
+							<td><?php echo $row['seller_name']?></td>
+							<td><?php 
+								if ($row['status'] == 1) {
+									$active = "success";
+                  $text = "Verified";
+									$color =  '';
+								}else{
+                  $text = "Not verified";
+									$active = "not active";
+									$color = "background: red;color:#fff";
+								}
+
+                
+							  ?> <button class="btn btn-<?= $active ?>" style="<?= $color ?>"><?= $text ?></button></td>
+                
 							<td>
 							<?php 
 							$dateStr=strtotime($row['added_on']);

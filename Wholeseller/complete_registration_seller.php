@@ -500,8 +500,16 @@ if (isset($_POST['businessname'])) {
 </body>
 
 </html>';
-	require_once("smtp/class.phpmailer.php");
-	smtp_mailer($email,'Verify Your Email',$html);	
+
+  require '../vendor/phpmailer/phpmailer/src/Exception.php';
+  require '../vendor/phpmailer/phpmailer/src/PHPMailer.php';
+  require '../vendor/phpmailer/phpmailer/src/SMTP.php';
+
+  // Include autoload.php file
+  require '../vendor/autoload.php';
+ 
+ send_mail($email,"Verify Your Email",$html);
+ 
 	$arr = array("status"=> "success", "msg"=> "Email Verfication link has been send successfully.Kindly check your email", "field"=>"message_send","id"=>$wholeseller['id']);
 		echo json_encode($arr);
 

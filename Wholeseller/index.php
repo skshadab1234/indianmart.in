@@ -1081,7 +1081,7 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
             </a>
           </li>
          
-                 <li class="nav-item">
+             <li class="nav-item">
             <?php
                 $active2 = ""; 
                 if($page_title == "Contact us"){
@@ -1095,8 +1095,28 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
             <a href="<?= $link2 ?>" class="nav-link <?= $active2 ?>">
               <i class="nav-icon fas fa-address-book"></i>
               <p>
-                Coupon Code
+                Contact us
                 <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+
+           <li class="nav-item">
+            <?php
+                $active2 = ""; 
+                if($page_title == "Enquiry"){
+                  $link2 = "javascript:void(0)";
+                  $active2 = "active";
+                }else{
+                  $link2 = "enquiries.php";
+                  
+                }
+                ?>
+            <a href="<?= $link2 ?>" class="nav-link <?= $active2 ?>">
+              <i class="nav-icon fas fa-envelope"></i>
+              <p>
+              	Enquiry
+	                <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>
           </li>

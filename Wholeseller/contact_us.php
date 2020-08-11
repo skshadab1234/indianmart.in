@@ -10,7 +10,8 @@ if(isset($_GET['type']) && $_GET['type']!=='' && isset($_GET['id']) && $_GET['id
 	}
 }
 
-$sql="select * from contact_us order by id";
+$id = $wholeseller['id'];
+$sql="select * from contact_us where message_for = '$id' order by id";
 $res=mysqli_query($con,$sql);
 
 ?>

@@ -36,15 +36,15 @@
     $("#example1").DataTable({
       "responsive": true,
       "autoWidth": false,
+            "ordering": false,
     });
     $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
       "responsive": true,
+      "autoWidth": false,
+    });
+     $('#example3').DataTable({
+     "responsive": true,
+      "autoWidth": false,
     });
   });
 </script>

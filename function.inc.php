@@ -55,7 +55,7 @@ function send_mail($email,$subject,$html){
             // Gmail ID which you want to use as SMTP server
             $mail->Username = 'ks615044@gmail.com';
             // Gmail Password
-            $mail->Password = '';
+            $mail->Password = '1@Shadabparveen1';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 
