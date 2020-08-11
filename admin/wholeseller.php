@@ -9,14 +9,28 @@ if(isset($_GET['type']) && $_GET['type']!=='' && isset($_GET['id']) && $_GET['id
 		mysqli_query($con,"delete from wholeseller where id='$id'");
 		redirect('wholeseller.php');
 	}
+
+   if($type == 'blocked'){
+      $status=1;
+      mysqli_query($con,"update wholeseller set admin_blocked=1,admin_approv=0 where id='$id'");
+      redirect('wholeseller.php');
+  }
+
+  if($type == 'approved'){
+      mysqli_query($con,"update wholeseller set admin_blocked=0,admin_approv=1  where id='$id'");
+      redirect('wholeseller.php');
+  }
+
 	if($type=='active' || $type=='deactive'){
 		$status=1;
 		if($type=='deactive'){
 			$status=0;
 		}
 		mysqli_query($con,"update wholeseller set status='$status' where id='$id'");
-		redirect('retailers.php');
+		redirect('wholeseller.php');
 	}
+
+
 
 }
 
@@ -89,6 +103,7 @@ $res=mysqli_query($con,$sql);
                             <th width="15%">Seller Email</th>
                             <th width="15%">Seller Name</th>
                             <th width="10%">Status</th>
+                            <th width="10%">Approve Gst</th>
 						              	<th width="10%">Added On</th>
                             <th width="15%">Actions</th>
                         </tr>
@@ -113,12 +128,70 @@ $res=mysqli_query($con,$sql);
 							<td><?php 
 								if ($row['status'] == 1) {
 									$active = "success";
+                  $text = "Verified";
 									$color =  '';
 								}else{
+                  $text = "Not verified";
 									$active = "not active";
 									$color = "background: red;color:#fff";
 								}
-							  ?> <button class="btn btn-<?= $active ?>" style="<?= $color ?>"><?= $active ?></button></td>
+
+                
+							  ?> <button class="btn btn-<?= $active ?>" style="<?= $color ?>"><?= $text ?></button></td>
+                <td><a href="javascript:void(0)" data-toggle="modal" data-target="#view_gst<?= $row['id'] ?>">View Gst</a>
+                  <?php 
+              if($row['admin_blocked'] == 1){
+                  $admin_text = "Blocked";
+                  $color1 = "red";
+                
+                  ?>
+                  <h5  class="btn" style="background: <?=  $color1 ?>;border: none;padding: 5px;color: #fff;font-size: 15px"><?= $admin_text ?></h5>
+               <?php }
+                  ?>
+                 
+              
+                          <div class="modal fade" id="view_gst<?= $row['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content" style="width: 100vw">
+                          <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle"><?= $row['seller_name'] ?></h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                          </button>
+                          </div>
+                          <div class="modal-body" style="background-image: url(<?= SITE_GST_IMAGE.$row['gst_img'] ?>);width: 100%;height: 51vh;background-repeat: no-repeat;background-size: contain;">
+                          </div>
+                          <div class="modal-footer">
+                            <a href="<?= SITE_GST_IMAGE.$row['gst_img'] ?>" target="_blank"><button class="btn btn-primary">View Full Image</button></a>
+
+                              <?php
+                              if($row['admin_approv'] == 0){
+                        ?>
+                        <a href="?id=<?php echo $row['id']?>&type=approved" class="btn btn-success">Approve</a>
+                        <?php
+                        }else{
+
+                        if($row['admin_blocked'] == 1){
+                        ?>
+                        <a href="?id=<?php echo $row['id']?>&type=approved" class="btn btn-danger">Unblock</a>
+                        <?php
+                        }else{
+                        ?>
+                        <a href="?id=<?php echo $row['id']?>&type=blocked" class="btn btn-danger">Block</a>
+                        <?php
+                        }}
+                        
+                        ?>
+                          </div>
+                          </div>
+                          </div>
+                          </div>
+                           <?php
+                  if ($row['admin_approv'] == 1) {
+                    ?>
+                     <h5  class="btn" style="background:green;border: none;padding: 5px;color: #fff;font-size: 15px">Approved</h5>
+                  <?php } ?>
+                </td>
 							<td>
 							<?php 
 							$dateStr=strtotime($row['added_on']);

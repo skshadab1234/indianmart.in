@@ -59,7 +59,7 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
 				</span>
 				<div class="wrap-input100" >
 					<label class="label-input100" for="name">Business name / Shop Name</label>
-					<input class="input100" type="text" id="businessname" placeholder="Ex.. SHADABZONE">
+					<input class="input100" type="text" id="businessname"  placeholder="Ex.. SHADABZONE">
 					<span class="focus-input100"></span>
 				</div>
 				<span class="businessname_error" style="color: red;font-style: italic;"></span>
@@ -79,12 +79,14 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
  jQuery('.contact100-form-btn').attr('disabled',true);	
   jQuery('.businessname_error').html('').hide();
   jQuery('.businessname_success').html('').hide();
-  var name=jQuery('#businessname').val();
+  var businessname=jQuery('#businessname').val();
   jQuery.ajax({
     url:'complete_registration_seller.php',
     type:'post',
-    data:{name:name},
+    data:{businessname:businessname},
     success:function(result){
+ jQuery('.contact100-form-btn').html("Next");
+ jQuery('.contact100-form-btn').attr('disabled',false);	
      var data = jQuery.parseJSON(result);
      if (data.status=="error") {
      	jQuery('.'+data.field).html(data.msg);
@@ -556,11 +558,28 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
 </html>
 
 			<?php
-        	}elseif (empty($wholeseller['GST_NUMBER'])>0) {
+        	}elseif (empty($wholeseller['gst_img'])) {
 
         		if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
-						$page_title='ADD GST NUMBER';
+						$page_title='Upload GST';
 					}   
+					
+					if (isset($_POST['upload_gst'])) {
+						$id = $wholeseller['id'];
+						$gst_img = $_FILES['gst_img']['name'];
+					     if (!empty($gst_img)) {
+					     $profile = time().'_'.$gst_img;
+					     $target = "../media/gst_img/".$profile;
+					     move_uploaded_file($_FILES['gst_img']['tmp_name'], $target);
+					     $gst_img = $profile;
+					     	
+				     	$sql = "update wholeseller set gst_img='$gst_img' where id = '$id'";
+				     	mysqli_query($con,$sql);
+				     	redirect('index.php');
+					     }else{
+					      $gst_img = $wholeseller['gst_img'];
+					     }
+					}
         		?>
         		        		<!DOCTYPE html>
 <html lang="en">
@@ -591,53 +610,23 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
 </head>
 <body>
 	<div class="container-contact100" style="background-color: #fff">
-			<form class="contact100-form validate-form" method="post">
+			<form class="contact100-form validate-form" method="post" action="" enctype="multipart/form-data">
 				<span class="contact100-form-title">
-					<h4>GSTIN Number</h4>
+					<h4>Upload Your Correct GST</h4>
 				</span>
-				<div class="wrap-input100" >
-					<label class="label-input100" for="name">Enter GSTIN Number</label>
-					<input class="input100" type="text" id="gst" placeholder="Ex.. 27AASCS2460H1Z0">
-					<span class="focus-input100"></span>
+				<div >
+					<input class="input100" type="file" name="gst_img" >
 				</div>
 				<span class="gst_error" style="color: red;font-style: italic;"></span>
 				<span class="businessname_success" style="color: green;font-style: italic;"></span>
 				<div class="container-contact100-form-btn">
-					<button type="button" class="contact100-form-btn" onclick="send_gst()">
+					<button type="submit" name="upload_gst" class="contact100-form-btn" >
 						Next
 					</button>
 				</div>
 			</form>
 	</div>
-<script type="text/javascript">
-	
- function send_gst(){
- jQuery('.contact100-form-btn').html("Please Wait..");
- jQuery('.contact100-form-btn').attr('disabled',true);	
-  jQuery('.gst_error').html('').hide();
-  var gst=jQuery('#gst').val();
-  jQuery.ajax({
-    url:'complete_registration_seller.php',
-    type:'post',
-    data:{gst:gst},
-    success:function(result){
-    	 jQuery('.contact100-form-btn').html("Next");
- 		 jQuery('.contact100-form-btn').attr('disabled',false);
-     var data = jQuery.parseJSON(result);
-     if (data.status=="error") {
-     	jQuery('.'+data.field).html(data.msg);
-     	jQuery('.'+data.field).show();
-     }
-     if (data.status=="success") {
-     	jQuery('.'+data.field).html(data.msg);
-     	jQuery('.'+data.field).show();
-     	window.location="index.php";
-     }
-    }
-  });
 
-}
-</script>
 <!--===============================================================================================-->
 	<script src="Form/vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
@@ -693,7 +682,7 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
 </html>
 
 			<?php
-        	}elseif (!empty($wholeseller['seller_shop_name'])) {
+        	}elseif (empty($wholeseller['admin_approv']) > 0) {
 					if ($wholeseller['status'] == 1) {
 						if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
 						$page_title='Verified';
@@ -739,14 +728,32 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
       }
     </style>
     <body>
+          <?php
+      	$text = "Account has been Created ";
+      	$color = "";
+      	$subtext = FRONT_SITE_NAME." Admin will verify your documents within 24hr your account will be activated if your documents are correct.";
+      	$logo = "✓";
+      	$appologi_msg = "";
+      if ($wholeseller['admin_blocked'] == 1) {
+      	$color = "red";
+      	$text = "Your Account has been blocked";
+      	$subtext ="<strong>Message From Admin :-</strong>".$wholeseller['blocking_msg'];
+      	$logo = "✕";
+      	$logo_color = "red";
+      	$appologi_msg = "Contact to admin:- <a href='contact_us.php'>Click here</a>";
+      }	
+      ?>
       <div class="card">
       <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
-        <i class="checkmark">✓</i>
+        <i style="color:<?= $logo_color ?>;font-style: normal;margin: 2px"><?= $logo ?></i>
       </div>
-        <h1>Account has been Created </h1> 
-        <p>Thank you so much to join us<br/></p>
+  
+        <h1 style="color: <?= $color ?>"><?= $text ?></h1> 
+        
+        <p><?php echo $subtext ?></p>
+        <p><?= $appologi_msg ?></p>
       </div>
-      
+     
     </body>
 </html>
         		<?php
@@ -816,20 +823,44 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
 				}, 30000);
 
 				var data = jQuery.parseJSON(result);
+				if (data.status == "login") {
+					window.location = "index.php";
+				}	
+					
 				if (data.status=="success") {
 				jQuery('.'+data.field).html(data.msg);
 				jQuery('.'+data.field).show();
+				setInterval(function(){
+					Check_seller_status(data.id);
+				}, 2000);
 				timer();
 				jQuery('#hm_timer').show();
+				
 				}
+
+				
 				}	
 			});
+	}
+
+	function Check_seller_status(id) {
+		jQuery.ajax({
+			url:"Check_seller_status.php",
+			data:"id="+id,
+			type:"post",
+			success:function(result) {
+				var data = jQuery.parseJSON(result);
+				if (data.status == '1') {
+					window.location.href='index.php';
+				}
+			}
+		});
 	}
 	</script>
 </body>
 </html>
 			<?php
-			}
+			}	
 
         	}
         	else{
@@ -875,17 +906,6 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
      
     </ul>
 
-    <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
-      <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-        <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
-            <i class="fas fa-search"></i>
-          </button>
-        </div>
-      </div>
-    </form>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
@@ -1023,7 +1043,63 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
            
           </li>
          <li class="nav-header">Manage</li>
-
+  <li class="nav-item">
+            <?php 
+                if($page_title == "Products"){
+                  $link = "javascript:void(0)";
+                  $active1 = "active";
+                }else{
+                  $link = "wholeseller_products.php";
+                  $active1 = "";
+                }
+                ?>
+            <a href="<?= $link ?>" class="nav-link <?= $active1 ?>">
+              <i class="nav-icon fas fa-object-group"></i>
+              <p>
+                Products
+              </p>
+            </a>
+           
+          </li>
+                 <li class="nav-item">
+            <?php
+                $active2 = ""; 
+                if($page_title == "Coupon Code"){
+                  $link2 = "javascript:void(0)";
+                  $active2 = "active";
+                }else{
+                  $link2 = "coupon_code.php";
+                  
+                }
+                ?>
+            <a href="<?= $link2 ?>" class="nav-link <?= $active2 ?>">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Coupon Code
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+         
+                 <li class="nav-item">
+            <?php
+                $active2 = ""; 
+                if($page_title == "Contact us"){
+                  $link2 = "javascript:void(0)";
+                  $active2 = "active";
+                }else{
+                  $link2 = "contact_us.php";
+                  
+                }
+                ?>
+            <a href="<?= $link2 ?>" class="nav-link <?= $active2 ?>">
+              <i class="nav-icon fas fa-address-book"></i>
+              <p>
+                Coupon Code
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
          
         </ul>
       </nav>

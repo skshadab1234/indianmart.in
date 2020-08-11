@@ -1,5 +1,9 @@
 <?php
 session_start();
+
+  use PHPMailer\PHPMailer\PHPMailer;
+  use PHPMailer\PHPMailer\Exception;
+
 $con=mysqli_connect('localhost','root','','indiamart');
 $email=$_POST['email'];
 $res=mysqli_query($con,"select * from wholeseller where seller_email='$email'");
@@ -9,35 +13,41 @@ if($count>0){
 	$otp=rand(11111,99999);
 	mysqli_query($con,"update wholeseller set otp='$otp' where seller_email='$email'");
 	$html="Your otp verification code is ".$otp;
+	$subject = "Verification Code";
 	$_SESSION['SELLER_EMAIL']=$email;
-	$_SESSION['WHOLESELLER_ID']=$row['id'];
-	smtp_mailer($email,'OTP Verification',$html);
-	echo "yes";
-}else{
-	echo "not_exist";
-}
+ 
 
-function smtp_mailer($to,$subject, $msg){
-	require_once("smtp/class.phpmailer.php");
-	$mail = new PHPMailer(); 
-	$mail->IsSMTP(); 
-	$mail->SMTPDebug = 1; 
-	$mail->SMTPAuth = true; 
-	$mail->SMTPSecure = 'TLS'; 
-	$mail->Host = "smtp.sendgrid.net";
-	$mail->Port = 587; 
-	$mail->IsHTML(true);
-	$mail->CharSet = 'UTF-8';
-	$mail->Username = "ks615044@gmail.com";
-	$mail->Password = "skshadab1234";
-	$mail->SetFrom("ks615044@gmail.com");
-	$mail->Subject = $subject;
-	$mail->Body =$msg;
-	$mail->AddAddress($to);
-	if(!$mail->Send()){
-		return 0;
-	}else{
-		return 1;
-	}
+  require '../vendor/phpmailer/phpmailer/src/Exception.php';
+  require '../vendor/phpmailer/phpmailer/src/PHPMailer.php';
+  require '../vendor/phpmailer/phpmailer/src/SMTP.php';
+
+  // Include autoload.php file
+  require '../vendor/autoload.php';
+  // Create object of PHPMailer class
+ 	 $mail = new PHPMailer(true);
+
+      $mail->isSMTP();
+      $mail->Host = 'smtp.gmail.com';
+      $mail->SMTPAuth = true;
+      // Gmail ID which you want to use as SMTP server
+      $mail->Username = 'ks615044@gmail.com';
+      // Gmail Password
+      $mail->Password = '*';
+      $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+      $mail->Port = 587;
+
+      // Email ID from which you want to send the email
+      $mail->setFrom('ks615044@gmail.com');
+      // Recipient Email ID where you want to receive emails
+      $mail->addAddress($email);
+
+      $mail->isHTML(true);
+      $mail->Subject = $subject;
+      $mail->Body = $html;
+
+      $mail->send();
+      echo  'yes';
+  }else{
+	$output =  "not_exist";
 }
 ?>

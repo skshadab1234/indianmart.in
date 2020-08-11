@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 10, 2020 at 09:48 AM
+-- Generation Time: Aug 11, 2020 at 06:55 AM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.2.12
 
@@ -1567,6 +1567,30 @@ INSERT INTO `cities` (`city_id`, `city_name`, `city_state`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `contact_us`
+--
+
+CREATE TABLE `contact_us` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `mobile` varchar(15) NOT NULL,
+  `subject` varchar(200) NOT NULL,
+  `message` text NOT NULL,
+  `message_for` int(11) NOT NULL,
+  `added_on` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `contact_us`
+--
+
+INSERT INTO `contact_us` (`id`, `name`, `email`, `mobile`, `subject`, `message`, `message_for`, `added_on`) VALUES
+(1, 'Khan Shadab', 'ks615044@gmail.com', '4545758545', 'sksks', 'sasasassasasas', 0, '2020-08-28 00:00:00');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `country`
 --
 
@@ -1586,6 +1610,31 @@ CREATE TABLE `country` (
 
 INSERT INTO `country` (`id`, `iso`, `name`, `nicename`, `iso3`, `numcode`, `phonecode`) VALUES
 (99, 'IN', 'INDIA', 'India', 'IND', 356, 91);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coupon_code`
+--
+
+CREATE TABLE `coupon_code` (
+  `id` int(11) NOT NULL,
+  `added_by` int(11) NOT NULL,
+  `coupon_code` varchar(20) NOT NULL,
+  `coupon_type` enum('P','F') NOT NULL,
+  `coupon_value` int(11) NOT NULL,
+  `cart_min_value` int(11) NOT NULL,
+  `expired_on` date NOT NULL,
+  `status` int(11) NOT NULL,
+  `added_on` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `coupon_code`
+--
+
+INSERT INTO `coupon_code` (`id`, `added_by`, `coupon_code`, `coupon_type`, `coupon_value`, `cart_min_value`, `expired_on`, `status`, `added_on`) VALUES
+(2, 39, 'SHADABZONE', 'P', 50, 200, '2020-08-21', 1, '2020-08-10 08:05:18');
 
 -- --------------------------------------------------------
 
@@ -1627,7 +1676,7 @@ CREATE TABLE `products` (
   `shipping_cost` int(11) NOT NULL,
   `product_measure` varchar(255) NOT NULL,
   `status` int(1) NOT NULL,
-  `added_by` varchar(255) NOT NULL,
+  `added_by` int(11) NOT NULL,
   `added_on` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -1636,7 +1685,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `cat_id`, `sub_catid`, `product_name`, `description`, `prod_img`, `shipping_cost`, `product_measure`, `status`, `added_by`, `added_on`) VALUES
-(10, 2, 3, 'ALOOCHAT1', '                  	                  	                  	<p><br></p><table class=\"table table-bordered\"><tbody><tr><td>Shadab</td><td>Parveen</td><td>My Name Shadab</td></tr><tr><td>Shadab<br></td><td>Shadab<br></td><td>Shadab<br></td></tr></tbody></table><p><br></p>', '186109196_banner.jpg', 2001, '20kg1', 1, 'admin', '2020-08-07 12:02:53');
+(11, 2, 3, 'Love Bite', '                  	sasas', '434930600_1596716700_khan-shadab_1594910437.jpg', 5000, '500kg, 600wt', 1, 39, '2020-08-10 07:35:30');
 
 -- --------------------------------------------------------
 
@@ -1661,7 +1710,9 @@ CREATE TABLE `product_details` (
 
 INSERT INTO `product_details` (`id`, `product_id`, `attribute`, `price`, `old_price`, `qty`, `status`, `added_on`) VALUES
 (5, 10, 'Half1', 20011, 100, 100, 1, '2020-08-07 12:02:53'),
-(8, 11, 'Mychoice', 1200, 200, 20, 1, '2020-08-07 12:46:38');
+(8, 10, 'Mychoice', 1200, 200, 20, 1, '2020-08-07 12:46:38'),
+(9, 10, 'skshadb1234', 5000, 50000, 50, 1, '2020-08-10 07:29:55'),
+(10, 11, 'Half', 20, 200, 12, 1, '2020-08-10 07:35:30');
 
 -- --------------------------------------------------------
 
@@ -1791,8 +1842,8 @@ CREATE TABLE `subscription_plan` (
 
 INSERT INTO `subscription_plan` (`id`, `subscription_plan_name`, `plan_price`, `plan_expire`, `plan_type`, `no_of_enquires`, `status`, `added_on`) VALUES
 (18, 'Popular', 3000, '30 days', 'no', 500, 1, '2020-08-07 08:51:09'),
-(19, 'Basic', 100, '7 days trial', 'no', 30, 1, '2020-08-07 08:55:38'),
-(20, 'Free', 1000, '91 days', 'yes', 100, 1, '2020-08-07 08:56:33');
+(19, 'Basic', 100, '7 days trial', 'yes', 30, 1, '2020-08-07 08:55:38'),
+(20, 'Free', 1000, '91 days', 'no', 12121, 1, '2020-08-07 08:56:33');
 
 -- --------------------------------------------------------
 
@@ -1813,9 +1864,12 @@ CREATE TABLE `wholeseller` (
   `seller_city` int(1) NOT NULL,
   `seller_address` varchar(255) NOT NULL,
   `category` int(1) NOT NULL,
-  `GST_NUMBER` varchar(255) NOT NULL,
+  `gst_img` varchar(255) NOT NULL,
   `rand_str` int(20) NOT NULL,
   `status` int(1) NOT NULL,
+  `admin_approv` int(1) NOT NULL DEFAULT '0',
+  `admin_blocked` int(1) NOT NULL,
+  `blocking_msg` varchar(255) NOT NULL,
   `added_on` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -1823,10 +1877,10 @@ CREATE TABLE `wholeseller` (
 -- Dumping data for table `wholeseller`
 --
 
-INSERT INTO `wholeseller` (`id`, `seller_img`, `seller_name`, `seller_email`, `seller_password`, `otp`, `seller_shop_name`, `seller_country`, `seller_state`, `seller_city`, `seller_address`, `category`, `GST_NUMBER`, `rand_str`, `status`, `added_on`) VALUES
-(36, '', 'khan shadab', 'skshadabkhojo@gmail.com', '$2y$10$lHjLVONQklew9Km9UnMa2eMDN1.pTdq9i8Py08eCcK81.rivvGp9u', 79049, 'sasa', 0, 0, 0, '', 0, '', 83703, 0, '2020-08-08 05:01:49'),
-(37, '', 'Khan Shadab', 'ks615044@gmail.com', '$2y$10$RDpIiJCd9jJp8mxI5Ny90OB7t5JLPl.hBU0ma2zr.pISEY.E6.cDy', 34282, 'Bhai Shahab', 99, 39, 3, 'Shaheen Bhag', 2, '27AASCS2460H1Z0', 39151, 0, '2020-08-08 05:35:39'),
-(38, '', 'asas', 'asasa@gmail.com', '$2y$10$KjN/UgW06zOLHnrjy51t1uT3mUdtnOoI.2XPvxFoDkemaKGF1c1jW', 0, '', 0, 0, 0, '', 0, '', 75690, 0, '2020-08-08 05:36:34');
+INSERT INTO `wholeseller` (`id`, `seller_img`, `seller_name`, `seller_email`, `seller_password`, `otp`, `seller_shop_name`, `seller_country`, `seller_state`, `seller_city`, `seller_address`, `category`, `gst_img`, `rand_str`, `status`, `admin_approv`, `admin_blocked`, `blocking_msg`, `added_on`) VALUES
+(39, '', 'khan ', 'ks615044@gmail.com', '$2y$10$8u.cV0tpAVX7OESmZBQ2h.xcZn6evus24HkZbRhk.u3400QKxySaq', 32696, 'shadabzone', 99, 38, 3, 'Height\n6\' 0\" (183 centimeters)\nWeight\n236.9 pounds (107.7 kilograms)\nHair Color\nBrown\nBlood Type\nO+\nMother\'s Maiden Name\nKeene\nCivil Status\nSingle\nEducational Background\nHigh school diploma or GED\nDriver LicenseP362-472-664-352 - issued in Minnesota (MN) ', 2, '1597064562_update.php', 40975, 1, 1, 0, '', '2020-08-10 05:52:30'),
+(45, '', 'khan Shadab', 'ksfjjks@gmail.com', '$2y$10$TGeu7Nz8FiQ7ATXs4j.vXuGaoH.pj30/HPBc0Od6H9pHF5uH2fZuW', 0, '', 0, 0, 0, '', 0, '', 81261, 0, 0, 0, '', '2020-08-11 09:16:10'),
+(47, '', 'Khan Shadab', 'skshadabkhojo@gmail.com', '$2y$10$Vcj6NF1eNs4P99o4avCBouSAo61M4bWeU3QQCFqMrHD1fVX42nmlu', 0, '', 0, 0, 0, '', 0, '', 67962, 0, 0, 0, '', '2020-08-11 10:18:32');
 
 --
 -- Indexes for dumped tables
@@ -1851,9 +1905,21 @@ ALTER TABLE `cities`
   ADD PRIMARY KEY (`city_id`);
 
 --
+-- Indexes for table `contact_us`
+--
+ALTER TABLE `contact_us`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `country`
 --
 ALTER TABLE `country`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `coupon_code`
+--
+ALTER TABLE `coupon_code`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1927,10 +1993,22 @@ ALTER TABLE `cities`
   MODIFY `city_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1624;
 
 --
+-- AUTO_INCREMENT for table `contact_us`
+--
+ALTER TABLE `contact_us`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `country`
 --
 ALTER TABLE `country`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
+
+--
+-- AUTO_INCREMENT for table `coupon_code`
+--
+ALTER TABLE `coupon_code`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `enquires`
@@ -1942,13 +2020,13 @@ ALTER TABLE `enquires`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `product_details`
 --
 ALTER TABLE `product_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `retailers`
@@ -1978,7 +2056,7 @@ ALTER TABLE `subscription_plan`
 -- AUTO_INCREMENT for table `wholeseller`
 --
 ALTER TABLE `wholeseller`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

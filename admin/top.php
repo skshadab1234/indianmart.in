@@ -5,7 +5,7 @@ include('session.php');
 if(!isset($_SESSION['ADMIN_ID'])){
   redirect('login.php');
 }
-$image = (!empty($row['photo']) ? SITE_USER_IMAGE.$row['photo'] : SITE_USER_IMAGE."noimage.jpg");
+$image = (!empty($admin['photo']) ? SITE_USER_IMAGE.$admin['photo'] : SITE_USER_IMAGE."noimage.jpg");
 
 
 $curStr=$_SERVER['REQUEST_URI'];
@@ -32,6 +32,10 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
   $page_title='Your Subscription';
 }elseif($cur_path=='enquiry.php'){
   $page_title='Enquiries';
+}elseif($cur_path=='coupon_code.php'){
+  $page_title='Coupon Code';
+}elseif($cur_path=='contact_us.php'){
+  $page_title='Contact Us';
 }
                 
 ?>
@@ -300,7 +304,25 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
               </p>
             </a>
           </li>
-
+    <li class="nav-item">
+            <?php
+                $active2 = ""; 
+                if($page_title == "Coupon Code"){
+                  $link2 = "javascript:void(0)";
+                  $active2 = "active";
+                }else{
+                  $link2 = "coupon_code.php";
+                  
+                }
+                ?>
+            <a href="<?= $link2 ?>" class="nav-link <?= $active2 ?>">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Coupon Code
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
            <li class="nav-item">
             <?php
                 $active2 = ""; 
@@ -339,7 +361,25 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
               </p>
             </a>
           </li>
-
+ <li class="nav-item">
+            <?php
+                $active2 = ""; 
+                if($page_title == "Contact Us"){
+                  $link2 = "javascript:void(0)";
+                  $active2 = "active";
+                }else{
+                  $link2 = "contact_us.php";
+                  
+                }
+                ?>
+            <a href="<?= $link2 ?>" class="nav-link <?= $active2 ?>">
+              <i class="nav-icon fas fa-address-book"></i>
+              <p>
+                Contact us
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
           <?php
                 $active2 = ""; 
                 if($page_title == "Setting"){
@@ -401,7 +441,9 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
               </li>
             </ul>
           </li>
+        
         </ul>
+
       </nav>
       <!-- /.sidebar-menu -->
     </div>

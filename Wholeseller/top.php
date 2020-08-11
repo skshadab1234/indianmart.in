@@ -11,6 +11,10 @@ $cur_path=$curArr[count($curArr)-1];
 $page_title='';
 if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
 	$page_title='Dashboard';
+}elseif($cur_path=='wholeseller_products.php' || $cur_path=='manage_products.php' || $cur_path==''){
+  $page_title='Products';
+}elseif($cur_path=='coupon_code.php' || $cur_path=='manage_coupon_code.php' || $cur_path==''){
+  $page_title='Coupon Code';
 }          
 ?>
 <!DOCTYPE html>
@@ -37,7 +41,11 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
   <link rel="stylesheet" href="../admin/template_admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
   <!-- Bootstrap4 Duallistbox -->
   <link rel="stylesheet" href="../admin/template_admin/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
-  
+  <style type="text/css">
+    .select2-container--default .select2-selection--single{
+      height: 40px;
+    }
+  </style>
 </head>
 
 
@@ -202,7 +210,63 @@ if($cur_path=='index.php' || $cur_path=='index.php' || $cur_path==''){
           </li>
          <li class="nav-header">Manage</li>
 
-         
+         <li class="nav-item">
+            <?php 
+                if($page_title == "Products"){
+                  $link = "javascript:void(0)";
+                  $active1 = "active";
+                }else{
+                  $link = "wholeseller_products.php";
+                  $active1 = "";
+                }
+                ?>
+            <a href="<?= $link ?>" class="nav-link <?= $active1 ?>">
+              <i class="nav-icon fas fa-object-group"></i>
+              <p>
+                Products
+              </p>
+            </a>
+           
+          </li>
+                 <li class="nav-item">
+            <?php
+                $active2 = ""; 
+                if($page_title == "Coupon Code"){
+                  $link2 = "javascript:void(0)";
+                  $active2 = "active";
+                }else{
+                  $link2 = "coupon_code.php";
+                  
+                }
+                ?>
+            <a href="<?= $link2 ?>" class="nav-link <?= $active2 ?>">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Coupon Code
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <?php
+                $active2 = ""; 
+                if($page_title == "Contact us"){
+                  $link2 = "javascript:void(0)";
+                  $active2 = "active";
+                }else{
+                  $link2 = "contact_us.php";
+                  
+                }
+                ?>
+            <a href="<?= $link2 ?>" class="nav-link <?= $active2 ?>">
+              <i class="nav-icon fas fa-address-book"></i>
+              <p>
+                Contact us
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

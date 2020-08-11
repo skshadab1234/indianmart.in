@@ -19,7 +19,7 @@ if(isset($_GET['type']) && $_GET['type']!=='' && isset($_GET['id']) && $_GET['id
 
 }
 
-$sql="SELECT *,products.id as pid, products.status as prostatus FROM `products` LEFT JOIN category ON products.cat_id = category.id LEFT JOIN subcategory ON products.sub_catid = subcategory.id ";
+$sql="SELECT *,products.id as pid, products.status as prostatus FROM `products` LEFT JOIN category ON products.cat_id = category.id LEFT JOIN subcategory ON products.sub_catid = subcategory.id where added_by=0";
 $res=mysqli_query($con,$sql);
 
 ?>

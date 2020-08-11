@@ -51,7 +51,7 @@ if(isset($_SESSION['SELLER_ID'])){
                   <input type="password" class="form-control form-control-lg" id="password" placeholder="Password" required>
                 </div>
                 <div class="mt-3 ">
-                  <input type="button" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" onclick="password_login()" value="Login" />
+                  <input type="button"  class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" onclick="password_login()" value="Login" />
                 </div>
                 <div class="container" style="margin-top: 10px">
                   <span id="password_error" style="color: red" class="field_error"></span>
@@ -112,6 +112,7 @@ if(isset($_SESSION['SELLER_ID'])){
   </div>
 <script>
 function send_otp(){
+  jQuery('#submit_otp').html('Please Wait......');
   var email=jQuery('#email').val();
   jQuery.ajax({
     url:'send_otp.php',
@@ -120,8 +121,8 @@ function send_otp(){
     success:function(result){
       if(result=='yes'){
         jQuery('.second_box').show();
-        jQuery('#email_error').html('Please Wait......')
         jQuery('.first_box').hide();
+
       }
       if(result=='not_exist'){
         jQuery('#email_error').html('Please enter valid email');

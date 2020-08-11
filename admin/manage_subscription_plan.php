@@ -37,7 +37,7 @@ if(isset($_POST['submit'])){
     if($id==''){
       mysqli_query($con,"insert into subscription_plan(subscription_plan_name,plan_price,plan_expire,plan_type,no_of_enquires,status,added_on) values('$subscription_plan_name','$plan_price','$plan_expire','$plan_type','$no_of_enquires',1,'$added_on')");
     }else{
-      mysqli_query($con,"update subscription_plan set subscription_plan_name='$subscription_plan_name',plan_price='$plan_price', plan_expire = $plan_expire,plan_type='$plan_type',no_of_enquires='$no_of_enquires' where id='$id'");
+      mysqli_query($con,"update subscription_plan set subscription_plan_name='$subscription_plan_name',plan_price='$plan_price', plan_expire = '$plan_expire',plan_type='$plan_type',no_of_enquires='$no_of_enquires' where id='$id'");
     }
     
     redirect('subscription_plan.php');

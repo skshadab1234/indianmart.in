@@ -61,7 +61,7 @@ if(isset($_POST['submit'])){
 			}else{
 				$prod_img=rand(111111111,999999999).'_'.$_FILES['image']['name'];
 				move_uploaded_file($_FILES['image']['tmp_name'],"../media/products/".$prod_img);
-				mysqli_query($con,"insert into products(cat_id,sub_catid,product_name,description,prod_img,shipping_cost,product_measure,status,added_by,added_on) values('$cat_id','$sub_catid','$product_name','$description','$prod_img','$shipping_cost','$product_measure',1,'admin','$added_on')");
+				mysqli_query($con,"insert into products(cat_id,sub_catid,product_name,description,prod_img,shipping_cost,product_measure,status,added_by,added_on) values('$cat_id','$sub_catid','$product_name','$description','$prod_img','$shipping_cost','$product_measure',1,'0','$added_on')");
 				$did=mysqli_insert_id($con);
 				
 				$attributeArr=$_POST['attribute'];

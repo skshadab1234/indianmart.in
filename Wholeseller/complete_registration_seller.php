@@ -2,8 +2,8 @@
 include('session.php');
 			$id = $wholeseller['id'];
 
-if (isset($_POST['name']) && !empty($_POST['name'])) {
-	$businessname =  get_safe_value($_POST['name']);
+if (isset($_POST['businessname'])) {
+	$businessname =  get_safe_value($_POST['businessname']);
 	$sql = "SELECT * FROM wholeseller Where seller_shop_name='$businessname'";
 	$res = mysqli_query($con,$sql);
 	$count = mysqli_num_rows($res);
@@ -47,7 +47,7 @@ if (isset($_POST['name']) && !empty($_POST['name'])) {
 	elseif (empty($address_line1)) {
 		$arr = array("status"=> "error", "msg"=> "Address is required", "field"=>"address_error");
 		echo json_encode($arr);
-	}elseif (strlen($address_line1) >= 20) {
+	}elseif (strlen($address_line1) <= 40) {
 		$arr = array("status"=> "error", "msg"=> "Add Correct address with Landmark", "field"=>"address_error");
 		echo json_encode($arr);
 	}elseif (empty($country)) {
@@ -61,6 +61,7 @@ if (isset($_POST['name']) && !empty($_POST['name'])) {
 		$arr = array("status"=> "error", "msg"=> "city is required", "field"=>"city_error");
 		echo json_encode($arr);
 	}else{
+
 		$sql = "update wholeseller set seller_shop_name='$business_name',seller_state='$state',seller_country='$country',seller_city='$city',seller_address='$address_line1' where id ='$id'";
 		mysqli_query($con,$sql);
 
@@ -80,32 +81,15 @@ if (isset($_POST['name']) && !empty($_POST['name'])) {
 		$arr = array("status"=> "success", "msg"=> "We are redirecting you to next page....", "field"=>"businessname_success");
 		echo json_encode($arr);
 	}
-}elseif (isset($_POST['gst'])) {
-	function is_valid_gstin($gstin) {
-        $regex = "/^([0][1-9]|[1-2][0-9]|[3][0-5])([a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9a-zA-Z]{1}[zZ]{1}[0-9a-zA-Z]{1})+$/";
-        return preg_match($regex, $gstin);
-    }
-    $gst = get_safe_value($_POST['gst']);
-    	if (empty($gst)) {
-    		$arr = array("status"=> "error", "msg"=> "Kindly fill the GSTIN Number to proceed", "field"=>"gst_error");
+}elseif ($wholeseller['status'] == 1) {
+		$arr = array("status"=> "login");
 		echo json_encode($arr);
-    	}
-	 elseif(!is_valid_gstin($gst)) {
-    	$arr = array("status"=> "error", "msg"=> "Incorrect GSTIN number", "field"=>"gst_error");
-		echo json_encode($arr);
-    	}else{
-    		$sql = "update wholeseller set GST_NUMBER='$gst' where id='$id'";
-    		mysqli_query($con,$sql);
-    		$arr = array("status"=> "success", "msg"=> "We are redirecting you to next page....", "field"=>"businessname_success");
-			echo json_encode($arr);
-    	}
-}else{
-	$sql = "SELECT * from wholeseller where id = '$id'";
-	$res = mysqli_query($con,$sql);
-	$row = mysqli_fetch_assoc($res);
-	$rand_str = $row['rand_str'];
-	$email =$row['seller_email'];
+		exit();
+	}else{
+	$rand_str = $wholeseller['rand_str'];
+	$email =$wholeseller['seller_email'];
 	$send_email = FRONT_SITE_PATH."Wholeseller/verify.php?rand_str=".$rand_str."";
+
 	$html = '
 <html>
 
@@ -517,9 +501,11 @@ if (isset($_POST['name']) && !empty($_POST['name'])) {
 
 </html>';
 	require_once("smtp/class.phpmailer.php");
-	// smtp_mailer($email,'Verify Your Email',$html);	
-	$arr = array("status"=> "success", "msg"=> "Email Verfication link has been send successfully.Kindly check your email", "field"=>"message_send");
+	smtp_mailer($email,'Verify Your Email',$html);	
+	$arr = array("status"=> "success", "msg"=> "Email Verfication link has been send successfully.Kindly check your email", "field"=>"message_send","id"=>$wholeseller['id']);
 		echo json_encode($arr);
-}
+
+	}
+
 
 ?>

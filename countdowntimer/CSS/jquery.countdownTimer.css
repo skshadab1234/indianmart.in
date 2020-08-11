@@ -12,14 +12,8 @@
    width: 100%;
    font-family: sans-serif;
    font-weight: bold;
-   border-style: solid;
 }
 
-.colorDefinition {
-    background: #000000;
-    color : #FFFFFF;
-    border-color: #F0068E;
-}
 
 .size_xl {
    font-size:50px;

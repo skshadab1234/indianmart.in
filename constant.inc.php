@@ -1,6 +1,6 @@
 <?php
-define('SITE_NAME','HouseWife Store');
-define('FRONT_SITE_NAME','HouseWife Store');
+define('SITE_NAME','Indianmart');
+define('FRONT_SITE_NAME','Indianmart');
 
 define('FRONT_SITE_PATH','http://127.0.0.1/indianmart/');
 define('SERVER_IMAGE',$_SERVER['DOCUMENT_ROOT'].'/indianmart/');
@@ -25,4 +25,7 @@ define('SITE_CATEGORY_IMAGE',FRONT_SITE_PATH."media/category/");
 
 define('SERVER_SUBCATEGORY_IMAGE',SERVER_IMAGE."media/subcategory/");
 define('SITE_SUBCATEGORY_IMAGE',FRONT_SITE_PATH."media/subcategory/");
+
+define('SERVER_GST_IMAGE',SERVER_IMAGE."media/gst_img/");
+define('SITE_GST_IMAGE',FRONT_SITE_PATH."media/gst_img/");
 ?>
