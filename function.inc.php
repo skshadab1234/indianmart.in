@@ -60,14 +60,14 @@ function send_mail($email,$subject,$html){
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
             // Gmail ID which you want to use as SMTP server
-            $mail->Username = 'ks615044@gmail.com';
+            $mail->Username = 'YourEmail@gmail.com';
             // Gmail Password
-            $mail->Password = '1@Shadabparveen1';
+            $mail->Password = '*****************';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 
             // Email ID from which you want to send the email
-            $mail->setFrom('ks615044@gmail.com');
+            $mail->setFrom('YourEmail@gmail.com');
             // Recipient Email ID where you want to receive emails
             $mail->addAddress($email);
 
